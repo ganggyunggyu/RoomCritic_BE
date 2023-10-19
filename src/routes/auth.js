@@ -99,18 +99,26 @@ router.post('/login', async (req, res, next) => {
     if (!user) return res.status(401).json(info.message);
     req.logIn(user, (err) => {
       if (err) return next(err);
-      res.status(200).json(user);
+      res
+        .status(200)
+        .json({ message: '로그인 성공', isLoggedIn: true, userInfo: user });
       console.log('good');
     });
   })(req, res, next);
 });
 
 router.get('/login/check', async (req, res) => {
-  console.log('/login/check : ', req.user);
-  if (!req.user) {
-    res.status(201).json({ message: '세션 만료' });
+  try {
+    console.log('/login/check : ', req.user);
+    if (!req.user) {
+      res.status(201).json({ message: '세션 만료' });
+    }
+    res
+      .status(200)
+      .json({ message: '세션 있음', isLoggedIn: true, userInfo: req.user });
+  } catch (err) {
+    console.log(err);
   }
-  res.status(200).json({ message: '세션 있음', userInfo: req.user });
 });
 
 export default router;

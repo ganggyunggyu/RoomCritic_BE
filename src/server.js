@@ -11,6 +11,7 @@ import dotenv from 'dotenv';
 import db from './db.js';
 
 import authRouter from './routes/auth.js';
+import postRouter from './routes/post.js';
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use(passport.session());
 
 // 라우터
 app.use('/auth', authRouter);
+app.use('/post', postRouter);
 
 // '/'에 접근할 경우 실행해줄 코드
 app.get('/', (req, res) => {
