@@ -10,8 +10,6 @@ import LocalStrategy from 'passport-local';
 const router = express.Router();
 
 router.post('/join', async (req, res) => {
-  console.log(req.body);
-
   try {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -57,19 +55,20 @@ passport.use(
       usernameField: 'email', // 이 부분을 'email'로 설정
       passwordField: 'password',
     },
-    async (입력한아이디, 입력한비번, cb) => {
+    async (email, password, cb) => {
       try {
-        const user = await User.findOne({ email: 입력한아이디 });
+        const user = await User.findOne({ email: email });
         if (!user) {
           return cb(null, false, { message: '아이디 DB에 없음' });
         }
-        const passwordMatch = await bcrypt.compare(입력한비번, user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
           return cb(null, false, { message: '비번불일치' });
         }
         return cb(null, user);
       } catch (err) {
         console.log(err);
+        done(err, null);
       }
     }
   )
@@ -77,17 +76,12 @@ passport.use(
 passport.serializeUser((user, done) => {
   process.nextTick(() => {
     done(null, {
-      id: user._id,
-      email: user.email,
-      displayName: user.displayName,
-      phoneNumber: user.phoneNumber,
-      posts: user.posts,
+      user,
     });
   });
 });
 
 passport.deserializeUser(async (user, done) => {
-  console.log('deserial : ', user);
   process.nextTick(() => {
     done(null, user);
   });
@@ -107,13 +101,24 @@ router.post('/login', async (req, res, next) => {
   })(req, res, next);
 });
 
+router.post('/logout', async (req, res) => {
+  req.logout();
+  return res.status(200).json({ message: '로그아웃' });
+  // req.session.destroy(() => {
+  //   return res
+  //     .clearCookie('connect.sid')
+  //     .status(200)
+  //     .json({ message: '로그아웃' });
+  // });
+});
+
 router.get('/login/check', async (req, res) => {
   try {
     console.log('/login/check : ', req.user);
     if (!req.user) {
-      res.status(201).json({ message: '세션 만료' });
+      return res.status(201).json({ message: '세션 만료' });
     }
-    res
+    return res
       .status(200)
       .json({ message: '세션 있음', isLoggedIn: true, userInfo: req.user });
   } catch (err) {
