@@ -23,9 +23,12 @@ const postSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  contentImg: {
+  contentPosterImg: {
     type: String,
     required: true,
+  },
+  contentBackdropImg: {
+    type: String,
   },
   contentName: {
     type: String,
