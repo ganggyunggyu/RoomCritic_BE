@@ -42,6 +42,7 @@ router.post('/join', async (req, res) => {
     res.status(500).json({ message: '회원가입 실패' });
   }
 });
+
 router.post('/emailcheck', async (req, res) => {
   console.log(req.body);
 });
@@ -101,15 +102,13 @@ router.post('/login', async (req, res, next) => {
   })(req, res, next);
 });
 
-router.post('/logout', async (req, res) => {
-  req.logout();
-  return res.status(200).json({ message: '로그아웃' });
-  // req.session.destroy(() => {
-  //   return res
-  //     .clearCookie('connect.sid')
-  //     .status(200)
-  //     .json({ message: '로그아웃' });
-  // });
+router.get('/logout', async (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    return res.status(200).json({ message: '로그아웃 성공' });
+  });
 });
 
 router.get('/login/check', async (req, res) => {
@@ -118,9 +117,11 @@ router.get('/login/check', async (req, res) => {
     if (!req.user) {
       return res.status(201).json({ message: '세션 만료' });
     }
-    return res
-      .status(200)
-      .json({ message: '세션 있음', isLoggedIn: true, userInfo: req.user });
+    return res.status(200).json({
+      message: '세션 있음',
+      isLoggedIn: true,
+      userInfo: { ...req.user },
+    });
   } catch (err) {
     console.log(err);
   }

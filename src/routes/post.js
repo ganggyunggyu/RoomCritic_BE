@@ -31,6 +31,10 @@ router.post('/create', async (req, res) => {
   }
 });
 
+router.delete('/delete', async (req, res) => {
+  console.log(req.body);
+});
+
 router.post('/review', async (req, res) => {
   console.log(req.body);
   const posts = await Post.find({
