@@ -3,7 +3,6 @@
 import express from 'express';
 import Post from '../Models/PostModel.js';
 import User from '../Models/UserModel.js';
-import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -18,7 +17,8 @@ router.post('/create', async (req, res) => {
       review: reviewData.review,
       addReview: reviewData.addReview,
       grade: reviewData.grade,
-      contentImg: reviewData.contentImg,
+      contentPosterImg: reviewData.contentPosterImg,
+      contentBackdropImg: reviewData.contentBackdropImg,
       contentName: reviewData.contentName,
       contentId: reviewData.contentId,
       contentType: reviewData.contentType,
@@ -55,9 +55,8 @@ router.get('/review', async (req, res) => {
   });
 });
 
-router.post('/myreview', async (req, res) => {
-  console.log(req.body);
-  const userId = req.body.userId;
+router.get('/myreview/:userId', async (req, res) => {
+  const userId = req.params.userId;
   const posts = await Post.find({ userId: userId });
   console.log('myPage Posts : ', posts);
 
@@ -66,6 +65,14 @@ router.post('/myreview', async (req, res) => {
       return b.createTime - a.createTime;
     }),
   });
+});
+
+router.get('/review/:userId/:reviewId', async (req, res) => {
+  console.log(req.params.reviewId);
+  const reviewId = req.params.reviewId;
+  const post = await Post.findById(reviewId);
+  console.log(post);
+  res.status(200).json({ review: post });
 });
 
 export default router;
