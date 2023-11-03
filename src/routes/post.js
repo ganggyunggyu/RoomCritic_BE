@@ -46,13 +46,29 @@ router.post('/review', async (req, res) => {
   return res.status(200).json({ reviews: posts });
 });
 router.get('/review', async (req, res) => {
-  const posts = await Post.find({});
+  try {
+    // 중복되지 않은 고유한 영화 이름 목록 가져오기
+    const uniqueMovieNames = await Post.aggregate([
+      {
+        $group: {
+          _id: '$contentName',
+          latestReview: { $first: '$$ROOT' },
+        },
+      },
+    ]);
+    console.log(uniqueMovieNames);
+    // 최신 10개 리뷰 가져오기
+    const latestReviews = uniqueMovieNames
+      .sort((a, b) => b.latestReview.createTime - a.latestReview.createTime)
+      .slice(0, 10)
+      .map((item) => item.latestReview);
 
-  return res.status(200).json({
-    reviews: posts.sort((a, b) => {
-      return b.createTime - a.createTime;
-    }),
-  });
+    return res.status(200).json({
+      reviews: latestReviews,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 router.get('/myreview/:userId', async (req, res) => {
