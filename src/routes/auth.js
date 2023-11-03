@@ -1,5 +1,3 @@
-/** @format */
-
 import express from 'express';
 import bcrypt from 'bcrypt';
 import User from '../Models/UserModel.js';
@@ -23,9 +21,7 @@ router.post('/join', async (req, res) => {
       return res.status(200).json({ message: '중복되는 이메일이 있습니다' });
     }
     if (phoneNumberCheck) {
-      return res
-        .status(200)
-        .json({ message: '중복되는 휴대폰 번호가 있습니다' });
+      return res.status(200).json({ message: '중복되는 휴대폰 번호가 있습니다' });
     }
     const user = new User({
       email: req.body.email,
@@ -71,8 +67,8 @@ passport.use(
         console.log(err);
         done(err, null);
       }
-    }
-  )
+    },
+  ),
 );
 passport.serializeUser((user, done) => {
   process.nextTick(() => {
@@ -94,9 +90,7 @@ router.post('/login', async (req, res, next) => {
     if (!user) return res.status(401).json(info.message);
     req.logIn(user, (err) => {
       if (err) return next(err);
-      res
-        .status(200)
-        .json({ message: '로그인 성공', isLoggedIn: true, userInfo: user });
+      res.status(200).json({ message: '로그인 성공', isLoggedIn: true, userInfo: user });
       console.log('good');
     });
   })(req, res, next);
@@ -107,7 +101,7 @@ router.get('/logout', async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    return res.status(200).json({ message: '로그아웃 성공' });
+    return res.clearCookie('connect.sid').status(200).json({ message: '로그아웃 성공' });
   });
 });
 
