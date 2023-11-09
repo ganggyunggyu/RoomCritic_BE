@@ -1,4 +1,3 @@
-/** @format */
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
@@ -30,7 +29,7 @@ app.use(
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -43,7 +42,7 @@ app.use(
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URL,
     }),
-  })
+  }),
 );
 app.use(passport.initialize());
 app.use(passport.session());
