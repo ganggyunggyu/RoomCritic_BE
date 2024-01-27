@@ -7,7 +7,7 @@ import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 
 import dotenv from 'dotenv';
-import db from './db.js';
+import dbConection from './db.js';
 
 import authRouter from './routes/auth.js';
 import postRouter from './routes/post.js';
@@ -61,5 +61,5 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT_URL || 4000, () => {
   console.log(`${process.env.PORT_URL}번 포트에서 서버 열림!`);
 
-  db();
+  dbConection();
 });
