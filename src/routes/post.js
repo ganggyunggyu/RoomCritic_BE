@@ -20,7 +20,7 @@ router.post('/create', async (req, res) => {
       contentType: reviewData.contentType,
     });
     await newPost.save();
-    await User.updateOne({ _id: req.user.id }, { $inc: { posts: 1 } });
+    await User.updateOne({ _id: reviewData.userId }, { $inc: { posts: 1 } });
     return res.status(200).json({ message: '게시글 생성 완료' });
   } catch (err) {
     console.log(err);
@@ -33,7 +33,7 @@ router.post('/review', async (req, res) => {
   const posts = await Post.find({
     contentId: req.body.contentId,
     contentType: req.body.contentType,
-  });
+  }).sort({ createTime: -1 });
   return res.status(200).json({
     reviews: posts,
   });
@@ -41,7 +41,7 @@ router.post('/review', async (req, res) => {
 //홈화면에 보여줄 리뷰
 router.get('/review', async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().sort({ createTime: -1 }).limit(10);
 
     return res.status(200).json({
       reviews: posts,
@@ -66,22 +66,18 @@ router.get('/myreview/:userId', async (req, res) => {
 router.get('/review/:userId/:reviewId', async (req, res) => {
   console.log(req.params.reviewId);
   const reviewId = req.params.reviewId;
-  const post = await Post.findById(reviewId);
+  const post = await Post.findById(reviewId).sort({ createTime: -1 }).limit(10);
 
   return res.status(200).json({ review: post });
 });
 
 router.get('/review/tv', async (req, res) => {
-  const posts = await Post.find({ contentType: 'tv' });
-
-  console.log(posts);
+  const posts = await Post.find({ contentType: 'tv' }).sort({ createTime: -1 }).limit(10);
 
   return res.status(200).json({ tvContentReviews: posts });
 });
 router.get('/review/movie', async (req, res) => {
-  const posts = await Post.find({ contentType: 'movie' });
-
-  console.log(posts);
+  const posts = await Post.find({ contentType: 'movie' }).sort({ createTime: -1 }).limit(10);
 
   return res.status(200).json({ movieContentReviews: posts });
 });
