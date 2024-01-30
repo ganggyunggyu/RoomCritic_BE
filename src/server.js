@@ -63,3 +63,7 @@ app.listen(process.env.PORT_URL || 4000, () => {
 
   dbConection();
 });
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../fe/build/index.html'));
+});
