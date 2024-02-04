@@ -5,6 +5,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 
 import dotenv from 'dotenv';
 import dbConection from './db.js';
@@ -15,6 +16,12 @@ import postRouter from './routes/post.js';
 dotenv.config();
 
 const app = express();
+
+app.listen(process.env.PORT_URL || 4000, () => {
+  console.log(`${process.env.PORT_URL}번 포트에서 서버 열림!`);
+
+  dbConection();
+});
 
 /**
  * 미들웨어
@@ -52,18 +59,8 @@ app.use('/auth', authRouter);
 app.use('/post', postRouter);
 
 // '/'에 접근할 경우 실행해줄 코드
-app.get('/', (req, res) => {
-  console.log('/ 접근');
-  console.log(req.cookies);
-  return res.status(200).json(req.cookies);
-});
-
-app.listen(process.env.PORT_URL || 4000, () => {
-  console.log(`${process.env.PORT_URL}번 포트에서 서버 열림!`);
-
-  dbConection();
-});
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../fe/build/index.html'));
-});
+// app.get('/', (req, res) => {
+//   console.log('/ 접근');
+//   console.log(req.cookies);
+//   return res.status(200).json(req.cookies);
+// });
