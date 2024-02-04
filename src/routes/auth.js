@@ -58,11 +58,11 @@ passport.use(
       try {
         const user = await User.findOne({ email: email });
         if (!user) {
-          return cb(null, false, { message: '아이디 DB에 없음' });
+          return cb(null, false, { message: '존재하지 않는 이메일 입니다.' });
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-          return cb(null, false, { message: '비번불일치' });
+          return cb(null, false, { message: '비밀번호를 확인해주세요.' });
         }
         return cb(null, user);
       } catch (err) {
