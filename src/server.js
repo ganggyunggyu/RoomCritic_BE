@@ -31,13 +31,15 @@ app.listen(process.env.PORT_URL || 4000, () => {
  * 요청의 데이터가 json일 경우 JavaScript로 변환해준다
  * req.body에 파싱된 JSON데이터가 저장되어 API 엔드포인트에서 사용할 수 있다
  */
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    credentials: true,
-  }),
-);
+const corsOptions = {
+  origin: 'https://room-critic-fe.vercel.app',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  credentials: true,
+  optionsSuccessStatus: 204, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -61,6 +63,7 @@ app.use('/post', postRouter);
 // '/'에 접근할 경우 실행해줄 코드
 app.get('/', (req, res) => {
   console.log('/ 접근');
+
   console.log(req.cookies);
   return res.status(200).json(req.cookies);
 });
