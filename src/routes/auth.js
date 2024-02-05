@@ -1,11 +1,11 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import User from '../Models/UserModel.js';
-
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 
 const router = express.Router();
+router.use(passport.session());
 
 router.post('/join', async (req, res) => {
   try {
@@ -39,9 +39,6 @@ router.post('/join', async (req, res) => {
   }
 });
 
-router.use(passport.initialize());
-router.use(passport.session());
-
 passport.use(
   new LocalStrategy(
     {
@@ -66,15 +63,22 @@ passport.use(
     },
   ),
 );
+//세션 생성
+//유저에 대한 정보를 받아서 세션을 생성
 passport.serializeUser((user, done) => {
+  console.log('세션 생성', user);
   process.nextTick(() => {
     done(null, {
       user,
     });
   });
 });
-
+//쿠키 분석
+//req.user 사용 가능
 passport.deserializeUser(async (user, done) => {
+  console.log('쿠키 분석', user);
+  // const result = await User.findOne({ _id: new ObjectId(user._id) });
+  // console.log('쿠키 분석 후 새로 가져온 유저의 정보', result);
   process.nextTick(() => {
     done(null, user);
   });
@@ -92,18 +96,11 @@ router.post('/login', async (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/logout', async (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    return res.clearCookie('connect.sid').status(200).json({ message: '로그아웃 성공' });
-  });
-});
-
 router.get('/login/check', async (req, res) => {
+  console.log('쿠키', req.cookies);
+  console.log('세션', req.session);
+  console.log('유저', req.user);
   try {
-    console.log('/login/check : ', req.user);
     if (!req.user) {
       return res.status(201).json({ message: '세션 만료' });
     }
@@ -115,6 +112,15 @@ router.get('/login/check', async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+router.get('/logout', async (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    return res.clearCookie('connect.sid').status(200).json({ message: '로그아웃 성공' });
+  });
 });
 
 export default router;
