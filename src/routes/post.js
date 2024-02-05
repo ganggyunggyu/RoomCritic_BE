@@ -54,7 +54,6 @@ router.get('/review', async (req, res) => {
 router.get('/myreview/:userId', async (req, res) => {
   const userId = req.params.userId;
   const posts = await Post.find({ userId: userId });
-  console.log('myPage Posts : ', posts);
 
   return res.status(200).json({
     reviews: posts.sort((a, b) => {
@@ -64,7 +63,6 @@ router.get('/myreview/:userId', async (req, res) => {
 });
 
 router.get('/review/:userId/:reviewId', async (req, res) => {
-  console.log(req.params.reviewId);
   const reviewId = req.params.reviewId;
   const post = await Post.findById(reviewId).sort({ createTime: -1 }).limit(10);
 
