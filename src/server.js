@@ -33,7 +33,7 @@ app.listen(process.env.PORT_URL || 4000, () => {
  */
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CLIENT_URL,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
   }),
@@ -59,8 +59,8 @@ app.use('/auth', authRouter);
 app.use('/post', postRouter);
 
 // '/'에 접근할 경우 실행해줄 코드
-// app.get('/', (req, res) => {
-//   console.log('/ 접근');
-//   console.log(req.cookies);
-//   return res.status(200).json(req.cookies);
-// });
+app.get('/', (req, res) => {
+  console.log('/ 접근');
+  console.log(req.cookies);
+  return res.status(200).json(req.cookies);
+});
