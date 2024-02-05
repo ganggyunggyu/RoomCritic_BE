@@ -35,7 +35,12 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60 * 60 * 1000 },
+    cookie: {
+      maxAge: 60 * 60 * 1000,
+      httpOnly: true, // 자바스크립트를 통해 세션 쿠키를 사용할 수 없도록 함 localhost, ip일때는 쓰면 안된다. 저장안됨
+      sameSite: 'none',
+      secure: true,
+    },
     proxy: true,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URL,
