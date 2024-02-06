@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const postSchema = new mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Types.ObjectId,
     required: true,
@@ -10,11 +10,11 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  review: {
+  lineReview: {
     type: String,
     required: true,
   },
-  addReview: {
+  longReview: {
     type: String,
   },
   grade: {
@@ -44,11 +44,11 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  Like: {
+  like: {
     type: Number,
     default: 0,
   },
 });
-const Post = mongoose.model('Post', postSchema);
+const Review = mongoose.model('Review', reviewSchema);
 
-export default Post;
+export default Review;
