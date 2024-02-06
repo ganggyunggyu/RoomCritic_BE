@@ -5,7 +5,7 @@ import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
 import dbConection from './db.js';
 import authRouter from './routes/auth.js';
-import postRouter from './routes/post.js';
+import reviewRouter from './routes/review.js';
 import passport from 'passport';
 
 dotenv.config();
@@ -49,4 +49,4 @@ app.use(
 );
 
 app.use('/auth', authRouter);
-app.use('/post', postRouter);
+app.use('/review', reviewRouter);
