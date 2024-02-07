@@ -4,9 +4,9 @@ import {
   ContentReviewsReadDTO,
   MyReviewsReadDTO,
   SelectedReviewDTO,
-} from '../DTO/review/reviewReadDTO.js';
+} from '../DTO/review/ReviewReadDTO.js';
 import ReviewCreateController from '../controllers/review/ReviewCreateController.js';
-import ReviewReadController from '../controllers/review/reviewReadController.js';
+import ReviewReadController from '../controllers/review/ReviewReadController.js';
 
 const router = express.Router();
 const reviewCreateController = new ReviewCreateController();
