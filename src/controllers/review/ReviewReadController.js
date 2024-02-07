@@ -3,7 +3,7 @@ import Review from '../../Models/ReviewModel.js';
 export default class ReviewReadController {
   async latestRead() {
     const getLatestReviews = await Review.find().sort({ createTime: -1 }).limit(10);
-    console.log(getLatestReviews);
+
     return { reviews: getLatestReviews, message: '최신 열개의 리뷰를 가져왔습니다.' };
   }
   async contentRead(reviewDTO) {
@@ -35,7 +35,7 @@ export default class ReviewReadController {
       userId: reviewDTO.userId,
       _id: reviewDTO.reviewId,
     });
-    console.log(getSelectedReview);
+    console.log('상세리뷰', getSelectedReview);
     return { review: getSelectedReview, message: '선택한 단일 리뷰를 불러왔습니다.' };
   }
 }
