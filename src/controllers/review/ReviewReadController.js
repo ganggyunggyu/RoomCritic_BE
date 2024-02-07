@@ -30,4 +30,12 @@ export default class ReviewReadController {
     const getMyrReviews = await Review.find({ userId: reviewDTO.userId }).sort({ createTime: -1 });
     return { reviews: getMyrReviews, message: '나의 리뷰를 최신순으로 불러왔습니다.' };
   }
+  async selectedReviewRead(reviewDTO) {
+    const getSelectedReview = await Review.findOne({
+      userId: reviewDTO.userId,
+      _id: reviewDTO.reviewId,
+    });
+    console.log(getSelectedReview);
+    return { review: getSelectedReview, message: '선택한 단일 리뷰를 불러왔습니다.' };
+  }
 }

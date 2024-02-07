@@ -1,3 +1,9 @@
+export class SelectedReviewDTO {
+  constructor(requestData) {
+    this.userId = requestData.userId;
+    this.reviewId = requestData.reviewId;
+  }
+}
 export class MyReviewsReadDTO {
   constructor(requestData) {
     this.userId = requestData.userId;

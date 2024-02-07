@@ -1,8 +1,12 @@
 import express from 'express';
 import ReviewCreateDTO from '../DTO/review/ReviewCreateDTO.js';
-import { ContentReviewsReadDTO, MyReviewsReadDTO } from '../DTO/review/ReviewReadDTO.js';
+import {
+  ContentReviewsReadDTO,
+  MyReviewsReadDTO,
+  SelectedReviewDTO,
+} from '../DTO/review/reviewReadDTO.js';
 import ReviewCreateController from '../controllers/review/ReviewCreateController.js';
-import ReviewReadController from '../controllers/review/ReviewReadController.js';
+import ReviewReadController from '../controllers/review/reviewReadController.js';
 
 const router = express.Router();
 const reviewCreateController = new ReviewCreateController();
@@ -53,9 +57,17 @@ router.get('/:userId', async (req, res) => {
     message: result.message,
   });
 });
+router.get('/detail/:userId/:reviewId', async (req, res) => {
+  const selectedReviewDTO = new SelectedReviewDTO(req.params);
+  const result = await reviewReadController.selectedReviewRead(selectedReviewDTO);
+  return res.status(200).json({
+    review: result.review,
+    message: result.message,
+  });
+});
 
 router.delete('/delete', async (req, res) => {
-  const reviewDeleteDTO = new reviewDeleteDTO();
+  const reviewDeleteDTO = new reviewDeleteDTO(req.body);
   const result = await reviewCreateController.deletePost(reviewDeleteDTO);
 
   return res.status(200).json({
@@ -63,7 +75,7 @@ router.delete('/delete', async (req, res) => {
   });
 });
 router.patch('/update', async (req, res) => {
-  const reviewUpdateDTO = new reviewUpdateDTO();
+  const reviewUpdateDTO = new reviewUpdateDTO(req.body);
   const result = await reviewCreateController.updatePost(reviewUpdateDTO);
 
   return res.status(200).json({
