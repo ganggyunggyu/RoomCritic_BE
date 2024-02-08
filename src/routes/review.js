@@ -25,9 +25,12 @@ router.post('/create', async (req, res) => {
 
 router.get('/:contentId/:contentType', async (req, res) => {
   const ContentReadDTO = new ContentReviewsReadDTO(req.params);
+
   const result = await reviewReadController.contentRead(ContentReadDTO);
+
   return res.status(200).json({
     reviews: result.reviews,
+    message: result.message,
   });
 });
 router.get('/latest', async (_, res) => {
