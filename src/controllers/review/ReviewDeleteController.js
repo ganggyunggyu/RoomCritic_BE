@@ -9,7 +9,6 @@ export default class ReviewDeleteController {
     // return { message: '본인이 아닙니다.' };
     const result = await Review.deleteOne({ _id: reviewDTO._id });
 
-    console.log(result, reviewDTO);
-    return { massage: '게시글 삭제가 완료되었습니다.' };
+    return { result: result, message: '게시글 삭제가 완료되었습니다.' };
   }
 }
