@@ -5,7 +5,7 @@ export default class ReviewCreateController {
     const newReview = new Review(reviewDTO);
     await newReview.save();
 
-    return '게시글 생성 완료';
+    return { message: '게시글 생성 완료' };
   }
 
   async updateReview(reviewDTO) {

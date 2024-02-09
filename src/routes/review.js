@@ -5,17 +5,20 @@ import {
   MyReviewsReadDTO,
   SelectedReviewDTO,
 } from '../DTO/review/ReviewReadDTO.js';
+import ReviewDeleteDTO from '../DTO/review/ReviewDeleteDTO.js';
 import ReviewCreateController from '../controllers/review/ReviewCreateController.js';
 import ReviewReadController from '../controllers/review/ReviewReadController.js';
+import ReviewDeleteController from '../controllers/review/ReviewDeleteController.js';
 
 const router = express.Router();
 const reviewCreateController = new ReviewCreateController();
 const reviewReadController = new ReviewReadController();
+const reviewDeleteController = new ReviewDeleteController();
 
 router.post('/create', async (req, res) => {
   console.log(req.body);
   try {
-    const reviewCreateDTO = new ReviewCreateDTO(req.body.reviewData);
+    const reviewCreateDTO = new ReviewCreateDTO(req.body.createData);
     const result = await reviewCreateController.createReview(reviewCreateDTO);
     return res.status(200).json({ message: result });
   } catch (err) {
@@ -70,9 +73,8 @@ router.get('/detail/:userId/:reviewId', async (req, res) => {
 });
 
 router.delete('/delete', async (req, res) => {
-  const reviewDeleteDTO = new reviewDeleteDTO(req.body);
-  const result = await reviewCreateController.deletePost(reviewDeleteDTO);
-
+  const reviewDeleteDTO = new ReviewDeleteDTO(req.body);
+  const result = await reviewDeleteController.deleteReview(reviewDeleteDTO);
   return res.status(200).json({
     message: result.message,
   });
