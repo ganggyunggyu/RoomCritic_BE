@@ -6,14 +6,17 @@ import {
   SelectedReviewDTO,
 } from '../DTO/review/ReviewReadDTO.js';
 import ReviewDeleteDTO from '../DTO/review/ReviewDeleteDTO.js';
+import ReviewUpdateDTO from '../DTO/review/ReviewUpdateDTO.js';
 import ReviewCreateController from '../controllers/review/ReviewCreateController.js';
 import ReviewReadController from '../controllers/review/ReviewReadController.js';
 import ReviewDeleteController from '../controllers/review/ReviewDeleteController.js';
+import ReviewUpdateController from '../controllers/review/ReviewUpdateController.js';
 
 const router = express.Router();
 const reviewCreateController = new ReviewCreateController();
 const reviewReadController = new ReviewReadController();
 const reviewDeleteController = new ReviewDeleteController();
+const reviewUpdateController = new ReviewUpdateController();
 
 router.post('/create', async (req, res) => {
   console.log(req.body);
@@ -80,8 +83,8 @@ router.delete('/delete', async (req, res) => {
   });
 });
 router.patch('/update', async (req, res) => {
-  const reviewUpdateDTO = new reviewUpdateDTO(req.body);
-  const result = await reviewCreateController.updatePost(reviewUpdateDTO);
+  const reviewUpdateDTO = new ReviewUpdateDTO(req.body.updateData);
+  const result = await reviewUpdateController.updateReview(reviewUpdateDTO);
 
   return res.status(200).json({
     message: result.message,
