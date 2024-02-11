@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   displayName: String,
   phoneNumber: String,
   roll: String,
-  posts: Number,
+  reviewCount: Number,
 });
 
 const User = mongoose.model('User', userSchema);
