@@ -91,6 +91,7 @@ router.post('/login', async (req, res, next) => {
     if (!user) return res.status(401).json(info.message);
     req.logIn(user, (err) => {
       if (err) return next(err);
+      console.log(user);
       res.status(200).json({ message: '로그인 성공', isLoggedIn: true, userInfo: { ...user } });
     });
   })(req, res, next);
