@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import dbConection from './db.js';
 import authRouter from './routes/auth.js';
 import reviewRouter from './routes/review.js';
+import contentRouter from './routes/content.js';
 import passport from 'passport';
 
 dotenv.config();
@@ -14,7 +15,6 @@ const app = express();
 
 app.listen(process.env.PORT_URL || 4000, () => {
   console.log(`${process.env.PORT_URL}번 포트에서 서버 열림!`);
-
   dbConection();
 });
 
@@ -50,3 +50,4 @@ app.use(
 
 app.use('/auth', authRouter);
 app.use('/review', reviewRouter);
+app.use('/content', contentRouter);
