@@ -29,7 +29,7 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.get('/:contentId/:contentType', async (req, res) => {
+router.get('/:contentType/:contentId', async (req, res) => {
   const ContentReadDTO = new ContentReviewsReadDTO(req.params);
 
   const result = await reviewReadController.contentRead(ContentReadDTO);
@@ -58,6 +58,7 @@ router.get('/movie', async (_, res) => {
   const result = await reviewReadController.movieContentRead();
   return res.status(200).json({ movieContentReviews: result.reviews });
 });
+
 router.get('/:userId', async (req, res) => {
   const myReviewsReadDTO = new MyReviewsReadDTO(req.params);
   const result = await reviewReadController.myReviewsRead(myReviewsReadDTO);
