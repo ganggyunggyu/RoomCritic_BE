@@ -7,6 +7,9 @@ import dbConection from './db.js';
 import authRouter from './routes/auth.js';
 import reviewRouter from './routes/review.js';
 import contentRouter from './routes/content.js';
+import tvRouter from './routes/tv.js';
+import movieRouter from './routes/movie.js';
+import scoreRouter from './routes/score.js';
 import passport from 'passport';
 
 dotenv.config();
@@ -37,9 +40,9 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 60 * 60 * 1000 * 60,
-      httpOnly: true, // 자바스크립트를 통해 세션 쿠키를 사용할 수 없도록 함 localhost, ip일때는 쓰면 안된다. 저장안됨
-      sameSite: 'none',
-      secure: true,
+      // httpOnly: true, // 자바스크립트를 통해 세션 쿠키를 사용할 수 없도록 함 localhost, ip일때는 쓰면 안된다. 저장안됨
+      // sameSite: 'none',
+      // secure: true,
     },
     proxy: true,
     store: MongoStore.create({
@@ -51,3 +54,6 @@ app.use(
 app.use('/auth', authRouter);
 app.use('/review', reviewRouter);
 app.use('/content', contentRouter);
+app.use('/tv', tvRouter);
+app.use('/movie', movieRouter);
+app.use('/score', scoreRouter);
