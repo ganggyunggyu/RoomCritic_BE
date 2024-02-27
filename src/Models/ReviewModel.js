@@ -6,6 +6,10 @@ const reviewSchema = new mongoose.Schema({
     required: true,
     ref: 'User',
   },
+  contentId: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+  },
   userName: {
     type: String,
     required: true,
@@ -29,10 +33,6 @@ const reviewSchema = new mongoose.Schema({
     type: String,
   },
   contentName: {
-    type: String,
-    required: true,
-  },
-  contentId: {
     type: String,
     required: true,
   },

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const contentSchma = new mongoose.Schema({
+const tvSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
   content_type: { type: String, require: true },
   adult: { type: Boolean, required: false },
@@ -12,11 +12,11 @@ const contentSchma = new mongoose.Schema({
   popularity: { type: Number, required: false },
   poster_path: { type: String, required: false },
   release_date: { type: Date, required: false },
-  title: { type: String, required: true },
+  title: { type: String, required: true }, //name
   video: { type: Boolean, required: false },
   vote_average: { type: Number, required: false },
   vote_count: { type: Number, required: false },
 });
-const Content = mongoose.model('Content', contentSchma);
+const Tv = mongoose.model('Tv', tvSchema);
 
-export default Content;
+export default Tv;
