@@ -34,7 +34,7 @@ router.get('/owner', async (_, res) => {
     const tv = await Tv.findOne({ _id: id });
     if (tv) tvs.push(tv);
   }
-  console.log(tvs);
+
   return res.status(200).json({ tvs: tvs });
 });
 

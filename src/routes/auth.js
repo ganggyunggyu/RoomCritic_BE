@@ -138,7 +138,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/login/check', async (req, res) => {
-  console.log(req.user);
+  console.log('check', req.user);
   try {
     if (!req.user) {
       return res

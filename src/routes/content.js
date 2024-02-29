@@ -186,7 +186,7 @@ router.get('/tv/owner', async (_, res) => {
     const tv = await Tv.findOne({ _id: id });
     if (tv) tvs.push(tv);
   }
-  console.log(tvs);
+
   return res.status(200).json({ tvs: tvs });
 });
 
@@ -205,7 +205,7 @@ router.get('/movie/owner', async (_, res) => {
     const movie = await Movie.findOne({ _id: id });
     if (movie) movies.push(movie);
   }
-  console.log(movies);
+
   return res.status(200).json({ movies: movies });
 });
 

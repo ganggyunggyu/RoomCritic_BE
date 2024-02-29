@@ -49,7 +49,6 @@ router.get('/top-rated-movies', async (req, res) => {
   try {
     const topRatedMovies = await Movie.aggregate(topRatedMovieGate);
 
-    console.log(topRatedMovies);
     res.status(200).json({ movies: topRatedMovies });
   } catch (error) {
     console.error(error);
