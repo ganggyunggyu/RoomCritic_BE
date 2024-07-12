@@ -141,10 +141,12 @@ router.get('/login/check', async (req, res) => {
   console.log('check', req.user);
   try {
     if (!req.user) {
+      console.log('세션 만료');
       return res
         .status(201)
         .json({ message: '세션 만료', isLoggedIn: false, userInfo: { ...req.user } });
     }
+    console.log('세션 유지');
     return res.status(200).json({
       message: '세션 유지',
       isLoggedIn: true,

@@ -19,7 +19,6 @@ const reviewDeleteController = new ReviewDeleteController();
 const reviewUpdateController = new ReviewUpdateController();
 
 router.post('/create', async (req, res) => {
-  console.log(req.body);
   try {
     const reviewCreateDTO = new ReviewCreateDTO(req.body.createData);
     const result = await reviewCreateController.createReview(reviewCreateDTO);

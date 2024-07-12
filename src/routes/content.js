@@ -71,6 +71,7 @@ router.get('/search/movie', async (req, res) => {
   ];
   try {
     const movies = await Movie.aggregate(movieGate);
+
     return res.json({
       contents: movies,
       massage: '검색 콘텐츠 보내드림',
